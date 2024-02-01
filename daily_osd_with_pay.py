@@ -221,10 +221,12 @@ def dm_format_osd(filename):
     dom_osd_3000_to_5000 = dom_osd[dom_osd['OSD'].between(3000 , 4999)]
     dom_osd_1000_to_3000 = dom_osd[dom_osd['OSD'].between(1000 , 3000)]
     dom_osd_500_to_1000 = dom_osd[dom_osd['OSD'].between(500 , 1000)]
+    dom_osd_3000_10_months = dom_osd_3000[dom_osd_3000['DAYS DIFFERENCE'] > 300]
 
     comm_osd_500 = comm_osd[comm_osd['OSD'] > 500]
     comm_osd_3000 = comm_osd[comm_osd['OSD'] > 3000]
     comm_osd_5000 = comm_osd[comm_osd['OSD'] > 5000]
+    comm_osd_3000_4_months = comm_osd_3000[comm_osd_3000['DAYS DIFFERENCE'] > 120]
 
     ind_osd_summary = ind_osd.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
     ind_osd_summary = pd.concat([ind_osd_summary , ind_osd_summary.sum().to_frame().T])
@@ -250,6 +252,10 @@ def dm_format_osd(filename):
     dom_osd_3000_summary = pd.concat([dom_osd_3000_summary , dom_osd_3000_summary.sum().to_frame().T])
     dom_osd_3000_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
 
+    dom_osd_3000_10_months_summary = dom_osd_3000_10_months.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
+    dom_osd_3000_10_months_summary = pd.concat([dom_osd_3000_10_months_summary , dom_osd_3000_10_months_summary.sum().to_frame().T])
+    dom_osd_3000_10_months_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
+
     comm_osd_summary = comm_osd.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
     comm_osd_summary = pd.concat([comm_osd_summary , comm_osd_summary.sum().to_frame().T])
     comm_osd_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
@@ -261,6 +267,10 @@ def dm_format_osd(filename):
     comm_osd_3000_summary = comm_osd_3000.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
     comm_osd_3000_summary = pd.concat([comm_osd_3000_summary , comm_osd_3000_summary.sum().to_frame().T])
     comm_osd_3000_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
+
+    comm_osd_3000_4_months_summary = comm_osd_3000_4_months.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
+    comm_osd_3000_4_months_summary = pd.concat([comm_osd_3000_4_months_summary , comm_osd_3000_4_months_summary.sum().to_frame().T])
+    comm_osd_3000_4_months_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
 
     comm_osd_5000_summary = comm_osd_5000.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
     comm_osd_5000_summary = pd.concat([comm_osd_5000_summary , comm_osd_5000_summary.sum().to_frame().T])
@@ -315,6 +325,9 @@ def dm_format_osd(filename):
 
         dom_osd_3000_summary.to_excel(writer , sheet_name = 'summary' , startrow = 2 , startcol = 20)
         worksheet.write(0 , 21 , "DOM-ABOVE-3000")
+        
+        dom_osd_3000_10_months_summary.to_excel(writer , sheet_name = 'summary' , startrow = 2 , startcol = 24)
+        worksheet.write(0 , 25 , "DOM-3000-10-MONTHS")
 
         comm_osd_summary.to_excel(writer , sheet_name = 'summary' , startrow = 15 , startcol = 0)
         worksheet.write(13 , 1 , "COMM-ALL-OSD")
@@ -331,6 +344,9 @@ def dm_format_osd(filename):
         comm_osd_3000_summary.to_excel(writer , sheet_name = 'summary' , startrow = 15 , startcol = 16)
         worksheet.write(13 , 17 , "COMM-ABOVE-3000")
 
+        comm_osd_3000_4_months_summary.to_excel(writer , sheet_name = 'summary' , startrow = 15 , startcol = 20)
+        worksheet.write(13 , 21 , "COMM-3000-4-MONTHS")
+
         ind_osd_summary.to_excel(writer , sheet_name = 'summary' , startrow = 28 , startcol = 0)
         worksheet.write(26 , 1 , "IND-ALL-OSD")
 
@@ -338,7 +354,7 @@ def dm_format_osd(filename):
         dom_osd_10000[columns].to_excel(writer, sheet_name= 'dom_10K', startrow= 0 , index = False)
         dom_osd_5000_to_10000[columns].to_excel(writer, sheet_name= 'dom_5K_to_10K', startrow= 0 , index = False)
         dom_osd_3000_to_5000[columns].to_excel(writer, sheet_name= 'dom_3K_to_5K', startrow= 0 , index = False)
-        dom_osd_3000[columns].to_excel(writer, sheet_name = 'dom_above_3000' , startrow = 0 , index = False) ####
+        dom_osd_3000[columns].to_excel(writer, sheet_name = 'dom_above_3000' , startrow = 0 , index = False)
         top_100_dom[columns].to_excel(writer, sheet_name= 'dom_top_100', startrow= 0 , index = False)
         comm_osd_5000[columns].to_excel(writer, sheet_name= 'comm_5000', startrow= 0 , index = False)
         comm_osd_3000[columns].to_excel(writer, sheet_name= 'comm_above_3000', startrow= 0 , index = False)
