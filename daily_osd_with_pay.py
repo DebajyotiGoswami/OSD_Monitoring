@@ -151,8 +151,12 @@ def osd(fileName , pay_data):
                 newSheet.cell(row= newFileRowCount, column= 15).value= days_till_last_paid
                 if days_till_last_paid > 365:
                     pay_remark = "1 Year"
+                elif days_till_last_paid > 300 :
+                    pay_remark = "10 Months"
                 elif days_till_last_paid > 180 :
                     pay_remark = "6 Months"
+                elif days_till_last_paid > 120 :
+                    pay_remark = "4 Months"
                 elif days_till_last_paid > 90 :
                     pay_remark = "3 Months"
                 elif days_till_last_paid > 30:
