@@ -250,10 +250,6 @@ def dm_format_osd(filename):
     dom_osd_3000_summary = pd.concat([dom_osd_3000_summary , dom_osd_3000_summary.sum().to_frame().T])
     dom_osd_3000_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
 
-    # dom_osd_3000_to_5000_summary = dom_osd_3000_to_5000.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
-    # dom_osd_3000_to_5000_summary = pd.concat([dom_osd_3000_to_5000_summary , dom_osd_3000_to_5000_summary.sum().to_frame().T])
-    # dom_osd_3000_to_5000_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
-
     comm_osd_summary = comm_osd.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
     comm_osd_summary = pd.concat([comm_osd_summary , comm_osd_summary.sum().to_frame().T])
     comm_osd_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
@@ -261,6 +257,10 @@ def dm_format_osd(filename):
     comm_osd_500_summary = comm_osd_500.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
     comm_osd_500_summary = pd.concat([comm_osd_500_summary , comm_osd_500_summary.sum().to_frame().T])
     comm_osd_500_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
+
+    comm_osd_3000_summary = comm_osd_3000.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
+    comm_osd_3000_summary = pd.concat([comm_osd_3000_summary , comm_osd_3000_summary.sum().to_frame().T])
+    comm_osd_3000_summary.rename(index = {0 : 'TOTAL'} , inplace = True)
 
     comm_osd_5000_summary = comm_osd_5000.groupby('CCC Code').agg({'Con Id' : 'count' , 'OSD Lakh' : 'sum'}).reindex(ccc_list , fill_value = 0)
     comm_osd_5000_summary = pd.concat([comm_osd_5000_summary , comm_osd_5000_summary.sum().to_frame().T])
@@ -327,6 +327,9 @@ def dm_format_osd(filename):
 
         top_100_comm_summary.to_excel(writer , sheet_name = 'summary' , startrow = 15 , startcol = 12)
         worksheet.write(13 , 13 , "COMM-TOP-100-OSD")
+
+        comm_osd_3000_summary.to_excel(writer , sheet_name = 'summary' , startrow = 15 , startcol = 16)
+        worksheet.write(13 , 17 , "COMM-ABOVE-3000")
 
         ind_osd_summary.to_excel(writer , sheet_name = 'summary' , startrow = 28 , startcol = 0)
         worksheet.write(26 , 1 , "IND-ALL-OSD")
